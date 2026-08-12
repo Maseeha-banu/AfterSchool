@@ -606,7 +606,7 @@ main {
     position: relative;
     overflow: hidden;
 
-    background-image: url("images/map-background.jpg");
+    background-image: url("Images/map-background.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
