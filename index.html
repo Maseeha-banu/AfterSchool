@@ -1,431 +1,2959 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>AfterSchool - Discover Activities</title>
+<title>AfterSchool - Discover Activities</title>
 
-    <link rel="stylesheet" href="style.css">
+<style>
+
+/* =========================
+   RESET
+========================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f7f9fa;
+    color: #17212b;
+    font-size: 14px;
+}
+
+button,
+input,
+select {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+    height: 64px;
+    background: white;
+    border-bottom: 1px solid #dfe4e8;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 24px;
+    gap: 28px;
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    min-width: 150px;
+
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.logo-icon {
+    width: 30px;
+    height: 30px;
+
+    background: #0b9258;
+    color: white;
+
+    border-radius: 7px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 20px;
+}
+
+.search-bar {
+    width: 420px;
+    height: 38px;
+
+    border: 1px solid #ccd5dc;
+    border-radius: 6px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 12px;
+    gap: 8px;
+}
+
+.search-bar span {
+    color: #596a77;
+    font-size: 17px;
+}
+
+.search-bar input {
+    border: none;
+    outline: none;
+
+    width: 100%;
+
+    font-size: 12px;
+}
+
+.navigation {
+    margin-left: auto;
+
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.navigation a {
+    color: #18232d;
+    text-decoration: none;
+
+    font-size: 13px;
+
+    padding: 22px 0 19px;
+
+    border-bottom: 2px solid transparent;
+}
+
+.navigation a:hover,
+.navigation a.active {
+    color: #087f4d;
+    border-bottom-color: #087f4d;
+}
+
+.profile {
+    width: 34px;
+    height: 34px;
+
+    border-radius: 50%;
+
+    background: #f0f3f5;
+    border: 1px solid #d9e0e5;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 11px;
+    font-weight: bold;
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+main {
+    padding: 22px 26px 30px;
+}
+
+
+/* =========================
+   PAGE HEADING
+========================= */
+
+.page-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 18px;
+}
+
+.page-heading h1 {
+    font-size: 22px;
+    margin-bottom: 4px;
+}
+
+.page-heading p {
+    color: #63727d;
+    font-size: 12px;
+}
+
+.location-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.location-button,
+.use-location {
+    height: 38px;
+
+    background: white;
+
+    border: 1px solid #ccd5dc;
+    border-radius: 6px;
+
+    padding: 0 13px;
+
+    font-size: 12px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.location-button:hover,
+.use-location:hover {
+    border-color: #0b9258;
+}
+
+.location-button span:nth-child(2) {
+    margin-left: 5px;
+}
+
+
+/* =========================
+   FILTERS
+========================= */
+
+.filters {
+    background: white;
+
+    border: 1px solid #dbe2e7;
+    border-radius: 7px;
+
+    min-height: 76px;
+
+    padding: 12px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    margin-bottom: 18px;
+}
+
+.filter {
+    padding: 0 12px;
+
+    min-width: 140px;
+
+    border-right: 1px solid #e1e6ea;
+}
+
+.filter label {
+    display: block;
+
+    font-size: 10px;
+    color: #566672;
+
+    margin-bottom: 8px;
+}
+
+.range-labels {
+    display: flex;
+    justify-content: space-between;
+
+    font-size: 9px;
+
+    color: #566672;
+
+    margin-bottom: 5px;
+}
+
+.range-line {
+    position: relative;
+
+    height: 5px;
+
+    background: #dfe7e3;
+
+    border-radius: 10px;
+}
+
+.range-active {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+
+    height: 5px;
+
+    background: #0b9258;
+
+    border-radius: 10px;
+}
+
+.range-point {
+    position: absolute;
+
+    width: 9px;
+    height: 9px;
+
+    border-radius: 50%;
+
+    background: white;
+
+    border: 2px solid #0b9258;
+
+    top: -2px;
+
+    z-index: 2;
+}
+
+.range-point:last-child {
+    right: 0;
+}
+
+.age-filter {
+    min-width: 190px;
+}
+
+.range-wrapper {
+    position: relative;
+}
+
+.range-wrapper input {
+    width: 100%;
+
+    accent-color: #0b9258;
+}
+
+.range-values {
+    display: flex;
+    justify-content: space-between;
+
+    font-size: 10px;
+
+    color: #566672;
+}
+
+.filter select,
+.select-button {
+    height: 32px;
+
+    background: white;
+
+    border: 1px solid #ccd5dc;
+    border-radius: 5px;
+
+    padding: 0 10px;
+
+    font-size: 11px;
+
+    min-width: 125px;
+}
+
+.select-button:hover {
+    border-color: #0b9258;
+}
+
+.more-filters {
+    margin-left: auto;
+
+    height: 32px;
+
+    background: white;
+
+    border: 1px solid #ccd5dc;
+
+    border-radius: 5px;
+
+    padding: 0 14px;
+
+    font-size: 11px;
+}
+
+.more-filters:hover {
+    background: #f0faf5;
+    border-color: #0b9258;
+}
+
+
+/* =========================
+   MORE FILTERS PANEL
+========================= */
+
+.extra-filters {
+    display: none;
+
+    background: white;
+
+    border: 1px solid #dbe2e7;
+
+    border-radius: 7px;
+
+    padding: 15px;
+
+    margin-top: -8px;
+    margin-bottom: 18px;
+
+    gap: 18px;
+}
+
+.extra-filters.show {
+    display: flex;
+}
+
+.extra-filter {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+.extra-filter label {
+    font-size: 11px;
+    color: #52616d;
+}
+
+.extra-filter input,
+.extra-filter select {
+    height: 32px;
+
+    border: 1px solid #ccd5dc;
+    border-radius: 5px;
+
+    padding: 0 8px;
+}
+
+
+/* =========================
+   RESULTS AREA
+========================= */
+
+.results-area {
+    display: grid;
+
+    grid-template-columns: minmax(480px, 1fr) minmax(500px, 1.1fr);
+
+    gap: 10px;
+
+    min-height: 600px;
+}
+
+.activities-section {
+    min-width: 0;
+}
+
+.results-header {
+    height: 35px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    font-size: 12px;
+
+    margin-bottom: 7px;
+}
+
+.sort {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.sort button {
+    background: white;
+
+    border: 1px solid #ccd5dc;
+
+    border-radius: 5px;
+
+    height: 30px;
+
+    padding: 0 10px;
+
+    font-size: 11px;
+}
+
+
+/* =========================
+   ACTIVITY CARD
+========================= */
+
+.activity-list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+.activity-card {
+    background: white;
+
+    border: 1px solid #dce3e8;
+
+    border-radius: 7px;
+
+    min-height: 112px;
+
+    padding: 10px;
+
+    display: grid;
+
+    grid-template-columns: 126px 1fr 75px;
+
+    gap: 12px;
+
+    transition: .2s;
+}
+
+.activity-card:hover {
+    border-color: #9acdb5;
+
+    box-shadow: 0 3px 12px rgba(0,0,0,.06);
+
+    transform: translateY(-1px);
+}
+
+.activity-card img {
+    width: 126px;
+    height: 92px;
+
+    object-fit: cover;
+
+    border-radius: 6px;
+}
+
+.activity-info {
+    min-width: 0;
+}
+
+.activity-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+}
+
+.activity-title h2 {
+    font-size: 14px;
+
+    color: #12212d;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.heart {
+    font-size: 22px;
+
+    color: #64727d;
+
+    cursor: pointer;
+
+    user-select: none;
+}
+
+.heart:hover,
+.heart.favorite {
+    color: #e34848;
+}
+
+.provider {
+    color: #51606c;
+
+    font-size: 11px;
+
+    margin-top: 9px;
+}
+
+.verified {
+    display: inline-flex;
+
+    width: 12px;
+    height: 12px;
+
+    background: #287ce0;
+
+    color: white;
+
+    border-radius: 50%;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 8px;
+
+    margin-left: 3px;
+}
+
+.activity-details {
+    display: flex;
+    gap: 12px;
+
+    color: #52616d;
+
+    font-size: 9px;
+
+    margin-top: 9px;
+}
+
+.tags {
+    display: flex;
+
+    gap: 5px;
+
+    margin-top: 8px;
+}
+
+.tags span {
+    background: #f1f4f5;
+
+    border-radius: 10px;
+
+    padding: 3px 7px;
+
+    font-size: 8px;
+
+    color: #42515d;
+}
+
+.activity-price {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-end;
+
+    justify-content: center;
+
+    padding-right: 4px;
+}
+
+.activity-price strong {
+    color: #008650;
+
+    font-size: 13px;
+}
+
+.activity-price span {
+    font-size: 9px;
+
+    color: #53616d;
+}
+
+.activity-price small {
+    color: #ed7652;
+
+    font-size: 8px;
+
+    margin-top: 9px;
+}
+
+
+/* =========================
+   PAGINATION
+========================= */
+
+.pagination {
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding: 15px 0;
+}
+
+.pagination button {
+    width: 30px;
+    height: 28px;
+
+    border: 1px solid #d1d9de;
+
+    background: white;
+
+    border-radius: 4px;
+
+    font-size: 11px;
+}
+
+.pagination button:hover {
+    border-color: #0b9258;
+}
+
+.pagination button.current {
+    background: #0b9258;
+
+    color: white;
+
+    border-color: #0b9258;
+}
+
+
+/* =========================
+   MAP
+========================= */
+
+.map-section {
+    min-width: 0;
+
+    border-radius: 7px;
+
+    overflow: hidden;
+
+    border: 1px solid #dfe3e7;
+
+    min-height: 580px;
+}
+
+.map-placeholder {
+    height: 100%;
+
+    min-height: 580px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,.12),
+            rgba(255,255,255,.12)
+        ),
+        url("Images/map-background.jpg");
+
+    background-size: cover;
+
+    background-position: center;
+
+    transition: transform .3s;
+}
+
+
+/* =========================
+   MAP TOOLBAR
+========================= */
+
+.map-toolbar {
+    position: absolute;
+
+    top: 12px;
+    left: 12px;
+
+    background: white;
+
+    padding: 9px 12px;
+
+    border-radius: 7px;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,.1);
+
+    z-index: 5;
+
+    font-size: 11px;
+}
+
+.map-toolbar input {
+    accent-color: #15935e;
+
+    margin-right: 7px;
+}
+
+
+/* =========================
+   MAP MARKERS
+========================= */
+
+.map-marker {
+    position: absolute;
+
+    font-size: 27px;
+
+    z-index: 3;
+
+    cursor: pointer;
+
+    transition: transform .2s;
+}
+
+.map-marker:hover {
+    transform: scale(1.2);
+}
+
+.marker-one {
+    top: 17%;
+    left: 69%;
+}
+
+.marker-two {
+    top: 45%;
+    left: 44%;
+}
+
+.marker-three {
+    top: 55%;
+    left: 12%;
+}
+
+.marker-four {
+    top: 76%;
+    left: 70%;
+}
+
+
+/* =========================
+   MAP POPUP
+========================= */
+
+.map-popup {
+    position: absolute;
+
+    top: 29%;
+    right: 22%;
+
+    width: 265px;
+
+    background: white;
+
+    border-radius: 10px;
+
+    padding: 10px;
+
+    display: grid;
+
+    grid-template-columns: 65px 1fr;
+
+    gap: 10px;
+
+    box-shadow: 0 4px 20px rgba(0,0,0,.18);
+
+    z-index: 10;
+}
+
+.map-popup img {
+    width: 65px;
+    height: 75px;
+
+    object-fit: cover;
+
+    border-radius: 6px;
+}
+
+.map-popup h3 {
+    font-size: 12px;
+
+    line-height: 15px;
+}
+
+.map-popup p {
+    font-size: 9px;
+
+    color: #666;
+
+    margin-top: 3px;
+}
+
+.map-popup strong {
+    display: block;
+
+    color: #f28b30;
+
+    font-size: 9px;
+
+    margin-top: 4px;
+}
+
+.close-popup {
+    position: absolute;
+
+    right: 8px;
+    top: 6px;
+
+    border: none;
+
+    background: none;
+
+    font-size: 16px;
+
+    color: #6a747b;
+}
+
+.view-details {
+    grid-column: 1 / 3;
+
+    height: 30px;
+
+    border: none;
+
+    border-radius: 5px;
+
+    background: #078b54;
+
+    color: white;
+
+    font-size: 10px;
+
+    font-weight: 600;
+}
+
+.view-details:hover {
+    background: #066f44;
+}
+
+
+/* =========================
+   MAP CONTROLS
+========================= */
+
+.map-controls {
+    position: absolute;
+
+    right: 12px;
+    top: 12px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+.map-controls button {
+    width: 32px;
+    height: 32px;
+
+    background: white;
+
+    border: none;
+
+    border-radius: 6px;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,.1);
+
+    font-size: 18px;
+}
+
+.map-controls button:hover {
+    background: #f1faf5;
+}
+
+
+/* =========================
+   MAP LEGEND
+========================= */
+
+.map-legend {
+    position: absolute;
+
+    bottom: 10px;
+    right: 12px;
+
+    background: white;
+
+    padding: 8px 11px;
+
+    border-radius: 6px;
+
+    font-size: 9px;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,.1);
+}
+
+
+/* =========================
+   DETAIL MODAL
+========================= */
+
+.modal-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0,0,0,.45);
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    z-index: 500;
+}
+
+.modal-overlay.show {
+    display: flex;
+}
+
+.modal {
+    width: 520px;
+
+    max-width: 90%;
+
+    background: white;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    box-shadow: 0 15px 50px rgba(0,0,0,.25);
+}
+
+.modal img {
+    width: 100%;
+    height: 210px;
+
+    object-fit: cover;
+}
+
+.modal-content {
+    padding: 20px;
+}
+
+.modal-content h2 {
+    font-size: 21px;
+
+    margin-bottom: 8px;
+}
+
+.modal-content p {
+    color: #566672;
+
+    margin-bottom: 8px;
+
+    font-size: 13px;
+}
+
+.modal-price {
+    color: #078b54 !important;
+
+    font-weight: bold;
+
+    font-size: 17px !important;
+
+    margin-top: 12px;
+}
+
+.modal-close {
+    float: right;
+
+    border: none;
+
+    background: #f2f4f5;
+
+    width: 30px;
+    height: 30px;
+
+    border-radius: 50%;
+
+    font-size: 18px;
+}
+
+.book-button {
+    width: 100%;
+
+    height: 42px;
+
+    border: none;
+
+    background: #078b54;
+
+    color: white;
+
+    border-radius: 6px;
+
+    margin-top: 10px;
+
+    font-weight: bold;
+}
+
+.book-button:hover {
+    background: #066f44;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1000px) {
+
+    .header {
+        gap: 12px;
+        padding: 0 14px;
+    }
+
+    .search-bar {
+        width: 250px;
+    }
+
+    .navigation {
+        gap: 15px;
+    }
+
+    main {
+        padding: 18px;
+    }
+
+    .results-area {
+        grid-template-columns: 1fr;
+    }
+
+    .map-section {
+        min-height: 500px;
+    }
+
+    .map-placeholder {
+        min-height: 500px;
+    }
+
+    .filters {
+        flex-wrap: wrap;
+    }
+
+    .more-filters {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 700px) {
+
+    .header {
+        height: auto;
+        flex-wrap: wrap;
+        padding: 10px;
+    }
+
+    .logo {
+        min-width: auto;
+    }
+
+    .search-bar {
+        width: 100%;
+        order: 3;
+    }
+
+    .navigation {
+        display: none;
+    }
+
+    .page-heading {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .filters {
+        align-items: stretch;
+    }
+
+    .filter {
+        width: 100%;
+        border-right: none;
+    }
+
+    .activity-card {
+        grid-template-columns: 90px 1fr;
+    }
+
+    .activity-card img {
+        width: 90px;
+        height: 90px;
+    }
+
+    .activity-price {
+        display: none;
+    }
+
+    .activity-details {
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    .map-popup {
+        right: 5%;
+        width: 240px;
+    }
+}
+
+</style>
 </head>
+
 
 <body>
 
-    <!-- Header -->
-    <header class="header">
 
-        <div class="logo">
-            <div class="logo-icon">↑</div>
-            <span>AfterSchool</span>
-        </div>
+<!-- =========================
+     HEADER
+========================= -->
 
-        <div class="search-bar">
-            <span>⌕</span>
+<header class="header">
+
+    <div class="logo">
+        <div class="logo-icon">↑</div>
+        <span>AfterSchool</span>
+    </div>
+
+    <div class="search-bar">
+        <span>⌕</span>
+
+        <input
+            id="searchInput"
+            type="text"
+            placeholder="Search activities, categories, providers..."
+        >
+    </div>
+
+    <nav class="navigation">
+
+        <a href="#">Home</a>
+
+        <a href="#" class="active">
+            Activities
+        </a>
+
+        <a href="#">
+            My Bookings
+        </a>
+
+        <a href="#">
+            Messages
+        </a>
+
+    </nav>
+
+    <div class="profile">
+        MB
+    </div>
+
+</header>
+
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main>
+
+
+<!-- PAGE HEADING -->
+
+<section class="page-heading">
+
+    <div>
+
+        <h1>
+            Discover Activities
+        </h1>
+
+        <p>
+            Find exciting after-school activities near you
+        </p>
+
+    </div>
+
+
+    <div class="location-controls">
+
+        <button
+            class="location-button"
+            id="locationButton"
+        >
+
+            📍
+
+            <span>
+                Koramangala, Bengaluru
+            </span>
+
+            <span>
+                ×
+            </span>
+
+            <span>
+                ⌄
+            </span>
+
+        </button>
+
+
+        <button
+            class="use-location"
+            id="useLocation"
+        >
+
+            ◉
+
+            Use my location
+
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     FILTERS
+========================= -->
+
+<section class="filters">
+
+
+    <!-- DISTANCE -->
+
+    <div class="filter">
+
+        <label>
+            Distance
+        </label>
+
+        <div class="range-wrapper">
+
+            <div class="range-values">
+
+                <span>
+                    0 km
+                </span>
+
+                <span id="distanceValue">
+                    25 km
+                </span>
+
+                <span>
+                    50 km
+                </span>
+
+            </div>
+
             <input
-                type="text"
-                placeholder="Search activities, categories, providers..."
+                id="distanceRange"
+                type="range"
+                min="0"
+                max="50"
+                value="25"
             >
+
         </div>
 
-        <nav class="navigation">
-            <a href="#">Home</a>
-            <a href="#" class="active">Activities</a>
-            <a href="#">My Bookings</a>
-            <a href="#">Messages</a>
-        </nav>
+    </div>
 
-        <div class="profile">
-            MB
+
+
+    <!-- AGE -->
+
+    <div class="filter age-filter">
+
+        <label>
+            Age Range
+        </label>
+
+        <div class="range-values">
+
+            <span>
+                5 yrs
+            </span>
+
+            <span id="ageValue">
+                6 – 16 yrs
+            </span>
+
+            <span>
+                18 yrs
+            </span>
+
         </div>
 
-    </header>
+        <input
+            id="ageRange"
+            type="range"
+            min="5"
+            max="18"
+            value="16"
+        >
+
+    </div>
 
 
-    <!-- Main Content -->
-    <main>
 
-        <!-- Page Heading -->
-        <section class="page-heading">
+    <!-- DATE -->
 
-            <div>
-                <h1>Discover Activities</h1>
-                <p>Find exciting after-school activities near you</p>
-            </div>
+    <div class="filter">
 
-            <div class="location-controls">
+        <label>
+            Date Range
+        </label>
 
-                <button class="location-button">
-                    📍
-                    <span>Koramangala, Bengaluru</span>
-                    <span>×</span>
-                    <span>⌄</span>
-                </button>
+        <input
+            type="date"
+            id="dateInput"
+            value="2026-07-25"
+            class="select-button"
+        >
 
-                <button class="use-location">
-                    ◉
-                    Use my location
-                </button>
-
-            </div>
-
-        </section>
+    </div>
 
 
-        <!-- Filters -->
-        <section class="filters">
 
-            <div class="filter distance-filter">
-                <label>Distance</label>
+    <!-- CATEGORY -->
 
-                <div class="range-labels">
-                    <span>0 km</span>
-                    <span>25 km</span>
-                    <span>50 km</span>
+    <div class="filter">
+
+        <label>
+            Categories
+        </label>
+
+        <select
+            id="categoryFilter"
+            class="select-button"
+        >
+
+            <option value="all">
+                ☆ All categories
+            </option>
+
+            <option value="Music">
+                Music
+            </option>
+
+            <option value="Sports">
+                Sports
+            </option>
+
+            <option value="Art & Craft">
+                Art & Craft
+            </option>
+
+            <option value="STEM">
+                STEM
+            </option>
+
+        </select>
+
+    </div>
+
+
+
+    <!-- TAG -->
+
+    <div class="filter">
+
+        <label>
+            Tags
+        </label>
+
+        <select
+            id="tagFilter"
+            class="select-button"
+        >
+
+            <option value="all">
+                ☆ All tags
+            </option>
+
+            <option value="Beginner Friendly">
+                Beginner Friendly
+            </option>
+
+            <option value="Outdoor">
+                Outdoor
+            </option>
+
+            <option value="Creative">
+                Creative
+            </option>
+
+            <option value="Robotics">
+                Robotics
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <button
+        class="more-filters"
+        id="moreFilters"
+    >
+
+        ⚙ More Filters
+
+    </button>
+
+</section>
+
+
+
+<!-- =========================
+     EXTRA FILTERS
+========================= -->
+
+<section
+    class="extra-filters"
+    id="extraFilters"
+>
+
+    <div class="extra-filter">
+
+        <label>
+            Maximum monthly price
+        </label>
+
+        <input
+            type="number"
+            id="priceFilter"
+            placeholder="₹ Maximum"
+        >
+
+    </div>
+
+
+    <div class="extra-filter">
+
+        <label>
+            Availability
+        </label>
+
+        <select id="availabilityFilter">
+
+            <option value="all">
+                Any availability
+            </option>
+
+            <option value="available">
+                Available spots
+            </option>
+
+            <option value="limited">
+                5 or fewer spots
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <div class="extra-filter">
+
+        <label>
+            Reset
+        </label>
+
+        <button
+            class="select-button"
+            id="resetFilters"
+        >
+            Reset Filters
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     RESULTS
+========================= -->
+
+<section class="results-area">
+
+
+<!-- LEFT SIDE -->
+
+<div class="activities-section">
+
+
+    <div class="results-header">
+
+        <span id="resultCount">
+            128 activities found
+        </span>
+
+
+        <div class="sort">
+
+            <span>
+                Sort by:
+            </span>
+
+            <select id="sortSelect">
+
+                <option value="newest">
+                    Date (Newest)
+                </option>
+
+                <option value="priceLow">
+                    Price (Low → High)
+                </option>
+
+                <option value="priceHigh">
+                    Price (High → Low)
+                </option>
+
+                <option value="spots">
+                    Most availability
+                </option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ACTIVITY LIST -->
+
+    <div
+        class="activity-list"
+        id="activityList"
+    >
+
+
+        <!-- GUITAR -->
+
+        <article
+            class="activity-card"
+            data-name="Guitar Basics for Beginners"
+            data-category="Music"
+            data-tags="Beginner Friendly Music"
+            data-age="6"
+            data-price="1500"
+            data-spots="8"
+            data-date="2026-08-01"
+        >
+
+            <img
+                src="Images/guitar.jpg"
+                alt="Child playing guitar"
+            >
+
+            <div class="activity-info">
+
+                <div class="activity-title">
+
+                    <h2>
+                        Guitar Basics for Beginners
+                    </h2>
+
+                    <span class="heart">
+                        ♡
+                    </span>
+
                 </div>
 
-                <div class="range-line">
-                    <span class="range-point"></span>
-                    <span class="range-active"></span>
-                    <span class="range-point"></span>
+                <p class="provider">
+
+                    Melody School of Music
+
+                    <span class="verified">
+                        ✓
+                    </span>
+
+                </p>
+
+                <div class="activity-details">
+
+                    <span>
+                        📅 Sat, 1 Aug 2026 – 26 Sep 2026
+                    </span>
+
+                    <span>
+                        ◷ 10:00 AM – 12:00 PM
+                    </span>
+
                 </div>
-            </div>
 
+                <div class="tags">
 
-            <div class="filter age-filter">
-                <label>Age Range</label>
+                    <span>
+                        Age 6 – 14 yrs
+                    </span>
 
-                <div class="range-labels">
-                    <span>5 yrs</span>
-                    <span>6 – 16 yrs</span>
-                    <span>18 yrs</span>
+                    <span>
+                        Music
+                    </span>
+
+                    <span>
+                        Beginner Friendly
+                    </span>
+
                 </div>
 
-                <div class="range-line">
-                    <span class="range-point"></span>
-                    <span class="range-active"></span>
-                    <span class="range-point"></span>
+            </div>
+
+            <div class="activity-price">
+
+                <strong>
+                    ₹1,500
+                </strong>
+
+                <span>
+                    / month
+                </span>
+
+                <small>
+                    8 spots left
+                </small>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- FOOTBALL -->
+
+        <article
+            class="activity-card"
+            data-name="Football Fun League"
+            data-category="Sports"
+            data-tags="Sports Outdoor"
+            data-age="7"
+            data-price="2000"
+            data-spots="5"
+            data-date="2026-08-02"
+        >
+
+            <img
+                src="Images/football.jpg"
+                alt="Children playing football"
+            >
+
+            <div class="activity-info">
+
+                <div class="activity-title">
+
+                    <h2>
+                        Football Fun League
+                    </h2>
+
+                    <span class="heart">
+                        ♡
+                    </span>
+
                 </div>
+
+                <p class="provider">
+
+                    Kickstart Sports Academy
+
+                    <span class="verified">
+                        ✓
+                    </span>
+
+                </p>
+
+                <div class="activity-details">
+
+                    <span>
+                        📅 Sun, 2 Aug 2026 – 27 Sep 2026
+                    </span>
+
+                    <span>
+                        ◷ 4:00 PM – 6:00 PM
+                    </span>
+
+                </div>
+
+                <div class="tags">
+
+                    <span>
+                        Age 7 – 16 yrs
+                    </span>
+
+                    <span>
+                        Sports
+                    </span>
+
+                    <span>
+                        Outdoor
+                    </span>
+
+                </div>
+
             </div>
 
+            <div class="activity-price">
 
-            <div class="filter">
-                <label>Date Range</label>
+                <strong>
+                    ₹2,000
+                </strong>
 
-                <button class="select-button">
-                    📅
-                    Jul 25, 2026 – Aug 25, 2026
-                </button>
+                <span>
+                    / month
+                </span>
+
+                <small>
+                    5 spots left
+                </small>
+
             </div>
 
+        </article>
 
-            <div class="filter">
-                <label>Categories</label>
 
-                <button class="select-button">
-                    ☆
-                    2 selected
-                    ⌄
-                </button>
+
+        <!-- PAINTING -->
+
+        <article
+            class="activity-card"
+            data-name="Creative Painting Workshop"
+            data-category="Art & Craft"
+            data-tags="Art & Craft Creative"
+            data-age="6"
+            data-price="1200"
+            data-spots="12"
+            data-date="2026-07-25"
+        >
+
+            <img
+                src="Images/painting.jpg"
+                alt="Painting supplies"
+            >
+
+            <div class="activity-info">
+
+                <div class="activity-title">
+
+                    <h2>
+                        Creative Painting Workshop
+                    </h2>
+
+                    <span class="heart">
+                        ♡
+                    </span>
+
+                </div>
+
+                <p class="provider">
+
+                    Art Studio Koramangala
+
+                    <span class="verified">
+                        ✓
+                    </span>
+
+                </p>
+
+                <div class="activity-details">
+
+                    <span>
+                        📅 Sat, 25 Jul 2026 – 15 Aug 2026
+                    </span>
+
+                    <span>
+                        ◷ 11:00 AM – 1:00 PM
+                    </span>
+
+                </div>
+
+                <div class="tags">
+
+                    <span>
+                        Age 6 – 13 yrs
+                    </span>
+
+                    <span>
+                        Art & Craft
+                    </span>
+
+                    <span>
+                        Creative
+                    </span>
+
+                </div>
+
             </div>
 
+            <div class="activity-price">
 
-            <div class="filter">
-                <label>Tags</label>
+                <strong>
+                    ₹1,200
+                </strong>
 
-                <button class="select-button">
-                    ☆
-                    3 selected
-                    ⌄
-                </button>
+                <span>
+                    / month
+                </span>
+
+                <small>
+                    12 spots left
+                </small>
+
             </div>
 
+        </article>
 
-            <button class="more-filters">
-                ⚙
-                More Filters
+
+
+        <!-- ROBOTICS -->
+
+        <article
+            class="activity-card"
+            data-name="Robotics for Kids"
+            data-category="STEM"
+            data-tags="STEM Robotics"
+            data-age="8"
+            data-price="2500"
+            data-spots="3"
+            data-date="2026-08-03"
+        >
+
+            <img
+                src="Images/robotics.jpg"
+                alt="Child learning robotics"
+            >
+
+            <div class="activity-info">
+
+                <div class="activity-title">
+
+                    <h2>
+                        Robotics for Kids
+                    </h2>
+
+                    <span class="heart">
+                        ♡
+                    </span>
+
+                </div>
+
+                <p class="provider">
+
+                    STEM Innovators
+
+                    <span class="verified">
+                        ✓
+                    </span>
+
+                </p>
+
+                <div class="activity-details">
+
+                    <span>
+                        📅 Mon, 3 Aug 2026 – 28 Sep 2026
+                    </span>
+
+                    <span>
+                        ◷ 5:00 PM – 7:00 PM
+                    </span>
+
+                </div>
+
+                <div class="tags">
+
+                    <span>
+                        Age 8 – 16 yrs
+                    </span>
+
+                    <span>
+                        STEM
+                    </span>
+
+                    <span>
+                        Robotics
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="activity-price">
+
+                <strong>
+                    ₹2,500
+                </strong>
+
+                <span>
+                    / month
+                </span>
+
+                <small>
+                    3 spots left
+                </small>
+
+            </div>
+
+        </article>
+
+
+    </div>
+
+
+
+    <!-- PAGINATION -->
+
+    <div class="pagination">
+
+        <button>
+            ‹
+        </button>
+
+        <button class="current">
+            1
+        </button>
+
+        <button>
+            2
+        </button>
+
+        <button>
+            3
+        </button>
+
+        <span>
+            ...
+        </span>
+
+        <button>
+            8
+        </button>
+
+        <button>
+            ›
+        </button>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     MAP
+========================= -->
+
+<div class="map-section">
+
+    <div
+        class="map-placeholder"
+        id="map"
+    >
+
+
+        <div class="map-toolbar">
+
+            <label>
+
+                <input
+                    type="checkbox"
+                    id="moveMap"
+                    checked
+                >
+
+                Search as I move the map
+
+            </label>
+
+        </div>
+
+
+
+        <!-- MARKERS -->
+
+        <div
+            class="map-marker marker-one"
+            data-activity="Guitar Basics for Beginners"
+        >
+            📍
+        </div>
+
+        <div
+            class="map-marker marker-two"
+            data-activity="Football Fun League"
+        >
+            📍
+        </div>
+
+        <div
+            class="map-marker marker-three"
+            data-activity="Creative Painting Workshop"
+        >
+            📍
+        </div>
+
+        <div
+            class="map-marker marker-four"
+            data-activity="Robotics for Kids"
+        >
+            📍
+        </div>
+
+
+
+        <!-- MAP POPUP -->
+
+        <div
+            class="map-popup"
+            id="mapPopup"
+        >
+
+            <button
+                class="close-popup"
+                id="closePopup"
+            >
+                ×
             </button>
 
-        </section>
+            <img
+                id="popupImage"
+                src="Images/guitar.jpg"
+                alt="Activity"
+            >
 
+            <div>
 
-        <!-- Results Area -->
-        <section class="results-area">
+                <h3 id="popupTitle">
+                    Guitar Basics for Beginners
+                </h3>
 
-            <!-- Left Side -->
-            <div class="activities-section">
+                <p id="popupDate">
+                    Sat, 1 Aug 2026
+                </p>
 
-                <div class="results-header">
-                    <span>128 activities found</span>
+                <p id="popupAge">
+                    Age 6 – 14 yrs
+                </p>
 
-                    <div class="sort">
-                        <span>Sort by:</span>
-
-                        <button>
-                            Date (Newest) ⌄
-                        </button>
-                    </div>
-                </div>
-
-
-                <!-- Activity Cards -->
-                <div class="activity-list">
-
-                    <!-- Activity 1 -->
-                   
-<article class="activity-card">
-
-    <img
-        src="Images/guitar.jpg"
-        alt="Child playing guitar"
-    >
-
-    <div class="activity-info">
-
-        <div class="activity-title">
-            <h2>Guitar Basics for Beginners</h2>
-            <span class="heart">♡</span>
-        </div>
-
-        <p class="provider">
-            Melody School of Music
-            <span class="verified">✓</span>
-        </p>
-
-        <div class="activity-details">
-            <span>📅 Sat, 1 Aug 2026 – 26 Sep 2026</span>
-            <span>◷ 10:00 AM – 12:00 PM</span>
-        </div>
-
-        <div class="tags">
-            <span>Age 6 – 14 yrs</span>
-            <span>Music</span>
-            <span>Beginner Friendly</span>
-        </div>
-
-    </div>
-
-    <div class="activity-price">
-        <strong>₹1,500</strong>
-        <span>/ month</span>
-        <small>8 spots left</small>
-    </div>
-
-</article>
-                           
-
-
-                    <!-- Activity 2 -->
-                    <article class="activity-card">
-
-                        <img
-                        
-                                src="Images/football.jpg"
-                                alt="Children playing football"
-                            
-                        >
-
-                        <div class="activity-info">
-
-                            <div class="activity-title">
-                                <h2>Football Fun League</h2>
-                                <span class="heart">♡</span>
-                            </div>
-
-                            <p class="provider">
-                                Kickstart Sports Academy
-                                <span class="verified">✓</span>
-                            </p>
-
-                            <div class="activity-details">
-                                <span>📅 Sun, 2 Aug 2026 – 27 Sep 2026</span>
-                                <span>◷ 4:00 PM – 6:00 PM</span>
-                            </div>
-
-                            <div class="tags">
-                                <span>Age 7 – 16 yrs</span>
-                                <span>Sports</span>
-                                <span>Outdoor</span>
-                            </div>
-
-                        </div>
-
-                        <div class="activity-price">
-                            <strong>₹2,000</strong>
-                            <span>/ month</span>
-                            <small>5 spots left</small>
-                        </div>
-
-                    </article>
-
-
-                    <!-- Activity 3 -->
-                    <article class="activity-card">
-
-                       <img
-                              src="Images/painting.jpg"
-                              alt="Painting supplies"
-                            
-                        >
-
-                        <div class="activity-info">
-
-                            <div class="activity-title">
-                                <h2>Creative Painting Workshop</h2>
-                                <span class="heart">♡</span>
-                            </div>
-
-                            <p class="provider">
-                                Art Studio Koramangala
-                                <span class="verified">✓</span>
-                            </p>
-
-                            <div class="activity-details">
-                                <span>📅 Sat, 25 Jul 2026 – 15 Aug 2026</span>
-                                <span>◷ 11:00 AM – 1:00 PM</span>
-                            </div>
-
-                            <div class="tags">
-                                <span>Age 6 – 13 yrs</span>
-                                <span>Art & Craft</span>
-                                <span>Creative</span>
-                            </div>
-
-                        </div>
-
-                        <div class="activity-price">
-                            <strong>₹1,200</strong>
-                            <span>/ month</span>
-                            <small>12 spots left</small>
-                        </div>
-
-                    </article>
-
-
-                    <!-- Activity 4 -->
-                    <!-- Activity 4 -->
-<article class="activity-card">
-
-    <img
-        src="Images/robotics.jpg"
-        alt="Child learning robotics"
-    >
-
-    <div class="activity-info">
-
-        <div class="activity-title">
-            <h2>Robotics for Kids</h2>
-            <span class="heart">♡</span>
-        </div>
-
-        <p class="provider">
-            STEM Innovators
-            <span class="verified">✓</span>
-        </p>
-
-        <div class="activity-details">
-            <span>📅 Mon, 3 Aug 2026 – 28 Sep 2026</span>
-            <span>◷ 5:00 PM – 7:00 PM</span>
-        </div>
-
-        <div class="tags">
-            <span>Age 8 – 16 yrs</span>
-            <span>STEM</span>
-            <span>Robotics</span>
-        </div>
-
-    </div>
-
-    <div class="activity-price">
-        <strong>₹2,500</strong>
-        <span>/ month</span>
-        <small>3 spots left</small>
-    </div>
-
-</article>
-
-                </div>
-
-
-                <!-- Pagination -->
-                <div class="pagination">
-                    <button>‹</button>
-                    <button class="current">1</button>
-                    <button>2</button>
-                    <button>3</button>
-                    <span>...</span>
-                    <button>8</button>
-                    <button>›</button>
-                </div>
+                <strong id="popupSpots">
+                    8 spots left
+                </strong>
 
             </div>
 
 
-            <!-- Map -->
-            <div class="map-section">
+            <button
+                class="view-details"
+                id="viewDetails"
+            >
+                View Details
+            </button>
 
-                <div class="map-placeholder">
-
-                    <div class="map-toolbar">
-                        <label>
-                            <input type="checkbox" checked>
-                            Search as I move the map
-                        </label>
-                    </div>
+        </div>
 
 
-                    <!-- Map Markers -->
-                    <div class="map-marker marker-one">📍</div>
-                    <div class="map-marker marker-two">📍</div>
-                    <div class="map-marker marker-three">📍</div>
-                    <div class="map-marker marker-four">📍</div>
+
+        <!-- MAP CONTROLS -->
+
+        <div class="map-controls">
+
+            <button id="zoomIn">
+                +
+            </button>
+
+            <button id="zoomOut">
+                −
+            </button>
+
+            <button id="resetZoom">
+                ⛶
+            </button>
+
+        </div>
 
 
-                    <!-- Activity Popup -->
-                    <div class="map-popup">
 
-                        <button class="close-popup">×</button>
+        <div class="map-legend">
 
-                        <img
-                             src="Images/guitar.jpg"
-                             alt="Guitar activity"
-                        >
+            🟢 1 – 10 Activities
 
-                        <div>
-                            <h3>Guitar Basics for Beginners</h3>
-                            <p>Sat, 1 Aug 2026</p>
-                            <p>Age 6 – 14 yrs</p>
-                            <strong>8 spots left</strong>
-                        </div>
-
-                        <button class="view-details">
-                            View Details
-                        </button>
-
-                    </div>
+        </div>
 
 
-                    <!-- Map Controls -->
-                    <div class="map-controls">
-                        <button>+</button>
-                        <button>−</button>
-                        <button>⛶</button>
-                    </div>
+    </div>
+
+</div>
 
 
-                    <div class="map-legend">
-                        🟢 1 – 10 Activities
-                    </div>
+</section>
 
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
+</main>
 
 
-    <script src="script.js"></script>
+
+<!-- =========================
+     DETAIL MODAL
+========================= -->
+
+<div
+    class="modal-overlay"
+    id="modalOverlay"
+>
+
+    <div class="modal">
+
+        <img
+            id="modalImage"
+            src="Images/guitar.jpg"
+            alt="Activity"
+        >
+
+        <div class="modal-content">
+
+            <button
+                class="modal-close"
+                id="modalClose"
+            >
+                ×
+            </button>
+
+            <h2 id="modalTitle">
+                Guitar Basics for Beginners
+            </h2>
+
+            <p id="modalProvider">
+                Melody School of Music
+            </p>
+
+            <p id="modalSchedule">
+                Saturdays · 10:00 AM – 12:00 PM
+            </p>
+
+            <p id="modalAge">
+                Suitable for ages 6 – 14
+            </p>
+
+            <p id="modalPrice" class="modal-price">
+                ₹1,500 / month
+            </p>
+
+            <button class="book-button">
+                Book This Activity
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+/* =========================================
+   AFTERSCHOOL INTERACTIVITY
+========================================= */
+
+
+/* -----------------------------------------
+   ACTIVITY DATA
+----------------------------------------- */
+
+const activities = {
+
+    "Guitar Basics for Beginners": {
+        image: "Images/guitar.jpg",
+        provider: "Melody School of Music",
+        date: "Sat, 1 Aug 2026",
+        age: "Age 6 – 14 yrs",
+        spots: "8 spots left",
+        price: 1500,
+        schedule: "Saturdays · 10:00 AM – 12:00 PM"
+    },
+
+    "Football Fun League": {
+        image: "Images/football.jpg",
+        provider: "Kickstart Sports Academy",
+        date: "Sun, 2 Aug 2026",
+        age: "Age 7 – 16 yrs",
+        spots: "5 spots left",
+        price: 2000,
+        schedule: "Sundays · 4:00 PM – 6:00 PM"
+    },
+
+    "Creative Painting Workshop": {
+        image: "Images/painting.jpg",
+        provider: "Art Studio Koramangala",
+        date: "Sat, 25 Jul 2026",
+        age: "Age 6 – 13 yrs",
+        spots: "12 spots left",
+        price: 1200,
+        schedule: "Saturdays · 11:00 AM – 1:00 PM"
+    },
+
+    "Robotics for Kids": {
+        image: "Images/robotics.jpg",
+        provider: "STEM Innovators",
+        date: "Mon, 3 Aug 2026",
+        age: "Age 8 – 16 yrs",
+        spots: "3 spots left",
+        price: 2500,
+        schedule: "Mondays · 5:00 PM – 7:00 PM"
+    }
+
+};
+
+
+/* -----------------------------------------
+   ELEMENTS
+----------------------------------------- */
+
+const cards = document.querySelectorAll(".activity-card");
+
+const searchInput =
+    document.getElementById("searchInput");
+
+const categoryFilter =
+    document.getElementById("categoryFilter");
+
+const tagFilter =
+    document.getElementById("tagFilter");
+
+const ageRange =
+    document.getElementById("ageRange");
+
+const distanceRange =
+    document.getElementById("distanceRange");
+
+const resultCount =
+    document.getElementById("resultCount");
+
+const sortSelect =
+    document.getElementById("sortSelect");
+
+const activityList =
+    document.getElementById("activityList");
+
+const ageValue =
+    document.getElementById("ageValue");
+
+const distanceValue =
+    document.getElementById("distanceValue");
+
+
+/* -----------------------------------------
+   FILTER ACTIVITIES
+----------------------------------------- */
+
+function filterActivities() {
+
+    const search =
+        searchInput.value.toLowerCase().trim();
+
+    const category =
+        categoryFilter.value;
+
+    const tag =
+        tagFilter.value;
+
+    const selectedAge =
+        Number(ageRange.value);
+
+    let visible = 0;
+
+
+    cards.forEach(card => {
+
+        const name =
+            card.dataset.name.toLowerCase();
+
+        const cardCategory =
+            card.dataset.category;
+
+        const cardTags =
+            card.dataset.tags;
+
+        const minimumAge =
+            Number(card.dataset.age);
+
+        const matchesSearch =
+            name.includes(search);
+
+        const matchesCategory =
+            category === "all" ||
+            cardCategory === category;
+
+        const matchesTag =
+            tag === "all" ||
+            cardTags.includes(tag);
+
+        const matchesAge =
+            minimumAge <= selectedAge;
+
+
+        const show =
+            matchesSearch &&
+            matchesCategory &&
+            matchesTag &&
+            matchesAge;
+
+
+        card.style.display =
+            show ? "grid" : "none";
+
+
+        if (show) {
+            visible++;
+        }
+
+    });
+
+
+    resultCount.textContent =
+        `${visible} activities found`;
+
+}
+
+
+/* -----------------------------------------
+   SEARCH
+----------------------------------------- */
+
+searchInput.addEventListener(
+    "input",
+    filterActivities
+);
+
+
+/* -----------------------------------------
+   CATEGORY
+----------------------------------------- */
+
+categoryFilter.addEventListener(
+    "change",
+    filterActivities
+);
+
+
+/* -----------------------------------------
+   TAG
+----------------------------------------- */
+
+tagFilter.addEventListener(
+    "change",
+    filterActivities
+);
+
+
+/* -----------------------------------------
+   AGE SLIDER
+----------------------------------------- */
+
+ageRange.addEventListener(
+    "input",
+    function() {
+
+        ageValue.textContent =
+            `6 – ${this.value} yrs`;
+
+        filterActivities();
+
+    }
+);
+
+
+/* -----------------------------------------
+   DISTANCE SLIDER
+----------------------------------------- */
+
+distanceRange.addEventListener(
+    "input",
+    function() {
+
+        distanceValue.textContent =
+            `${this.value} km`;
+
+    }
+);
+
+
+/* -----------------------------------------
+   SORT
+----------------------------------------- */
+
+sortSelect.addEventListener(
+    "change",
+    function() {
+
+        const allCards =
+            [...cards];
+
+
+        if (this.value === "priceLow") {
+
+            allCards.sort(
+                (a, b) =>
+                    Number(a.dataset.price) -
+                    Number(b.dataset.price)
+            );
+
+        }
+
+
+        if (this.value === "priceHigh") {
+
+            allCards.sort(
+                (a, b) =>
+                    Number(b.dataset.price) -
+                    Number(a.dataset.price)
+            );
+
+        }
+
+
+        if (this.value === "spots") {
+
+            allCards.sort(
+                (a, b) =>
+                    Number(b.dataset.spots) -
+                    Number(a.dataset.spots)
+            );
+
+        }
+
+
+        if (this.value === "newest") {
+
+            allCards.sort(
+                (a, b) =>
+                    new Date(b.dataset.date) -
+                    new Date(a.dataset.date)
+            );
+
+        }
+
+
+        allCards.forEach(card => {
+
+            activityList.appendChild(card);
+
+        });
+
+    }
+);
+
+
+/* -----------------------------------------
+   FAVORITE HEARTS
+----------------------------------------- */
+
+document
+    .querySelectorAll(".heart")
+    .forEach(heart => {
+
+        heart.addEventListener(
+            "click",
+            function() {
+
+                this.classList.toggle("favorite");
+
+                this.textContent =
+                    this.classList.contains("favorite")
+                        ? "♥"
+                        : "♡";
+
+            }
+        );
+
+    });
+
+
+/* -----------------------------------------
+   MORE FILTERS
+----------------------------------------- */
+
+const moreFilters =
+    document.getElementById("moreFilters");
+
+const extraFilters =
+    document.getElementById("extraFilters");
+
+moreFilters.addEventListener(
+    "click",
+    function() {
+
+        extraFilters.classList.toggle("show");
+
+        this.textContent =
+            extraFilters.classList.contains("show")
+                ? "⚙ Hide Filters"
+                : "⚙ More Filters";
+
+    }
+);
+
+
+/* -----------------------------------------
+   RESET FILTERS
+----------------------------------------- */
+
+document
+    .getElementById("resetFilters")
+    .addEventListener(
+        "click",
+        function() {
+
+            searchInput.value = "";
+
+            categoryFilter.value = "all";
+
+            tagFilter.value = "all";
+
+            ageRange.value = 16;
+
+            distanceRange.value = 25;
+
+            document.getElementById(
+                "priceFilter"
+            ).value = "";
+
+            document.getElementById(
+                "availabilityFilter"
+            ).value = "all";
+
+            ageValue.textContent =
+                "6 – 16 yrs";
+
+            distanceValue.textContent =
+                "25 km";
+
+            filterActivities();
+
+        }
+    );
+
+
+/* -----------------------------------------
+   MAP POPUP
+----------------------------------------- */
+
+const mapPopup =
+    document.getElementById("mapPopup");
+
+const popupImage =
+    document.getElementById("popupImage");
+
+const popupTitle =
+    document.getElementById("popupTitle");
+
+const popupDate =
+    document.getElementById("popupDate");
+
+const popupAge =
+    document.getElementById("popupAge");
+
+const popupSpots =
+    document.getElementById("popupSpots");
+
+
+document
+    .querySelectorAll(".map-marker")
+    .forEach(marker => {
+
+        marker.addEventListener(
+            "click",
+            function() {
+
+                const name =
+                    this.dataset.activity;
+
+                const data =
+                    activities[name];
+
+
+                popupImage.src =
+                    data.image;
+
+                popupTitle.textContent =
+                    name;
+
+                popupDate.textContent =
+                    data.date;
+
+                popupAge.textContent =
+                    data.age;
+
+                popupSpots.textContent =
+                    data.spots;
+
+
+                mapPopup.style.display =
+                    "grid";
+
+            }
+        );
+
+    });
+
+
+/* -----------------------------------------
+   CLOSE MAP POPUP
+----------------------------------------- */
+
+document
+    .getElementById("closePopup")
+    .addEventListener(
+        "click",
+        function() {
+
+            mapPopup.style.display =
+                "none";
+
+        }
+    );
+
+
+/* -----------------------------------------
+   VIEW DETAILS MODAL
+----------------------------------------- */
+
+const modalOverlay =
+    document.getElementById("modalOverlay");
+
+const modalImage =
+    document.getElementById("modalImage");
+
+const modalTitle =
+    document.getElementById("modalTitle");
+
+const modalProvider =
+    document.getElementById("modalProvider");
+
+const modalSchedule =
+    document.getElementById("modalSchedule");
+
+const modalAge =
+    document.getElementById("modalAge");
+
+const modalPrice =
+    document.getElementById("modalPrice");
+
+
+function openDetails(name) {
+
+    const data =
+        activities[name];
+
+    modalImage.src =
+        data.image;
+
+    modalTitle.textContent =
+        name;
+
+    modalProvider.textContent =
+        data.provider;
+
+    modalSchedule.textContent =
+        data.schedule;
+
+    modalAge.textContent =
+        data.age;
+
+    modalPrice.textContent =
+        `₹${data.price.toLocaleString("en-IN")} / month`;
+
+    modalOverlay.classList.add("show");
+
+}
+
+
+/* -----------------------------------------
+   MAP VIEW DETAILS
+----------------------------------------- */
+
+document
+    .getElementById("viewDetails")
+    .addEventListener(
+        "click",
+        function() {
+
+            openDetails(
+                popupTitle.textContent
+            );
+
+        }
+    );
+
+
+/* -----------------------------------------
+   CARD CLICK
+----------------------------------------- */
+
+cards.forEach(card => {
+
+    card.addEventListener(
+        "dblclick",
+        function() {
+
+            openDetails(
+                this.dataset.name
+            );
+
+        }
+    );
+
+});
+
+
+/* -----------------------------------------
+   MODAL CLOSE
+----------------------------------------- */
+
+document
+    .getElementById("modalClose")
+    .addEventListener(
+        "click",
+        function() {
+
+            modalOverlay.classList.remove(
+                "show"
+            );
+
+        }
+    );
+
+
+modalOverlay.addEventListener(
+    "click",
+    function(event) {
+
+        if (event.target === modalOverlay) {
+
+            modalOverlay.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+);
+
+
+/* -----------------------------------------
+   LOCATION BUTTON
+----------------------------------------- */
+
+document
+    .getElementById("useLocation")
+    .addEventListener(
+        "click",
+        function() {
+
+            this.textContent =
+                "✓ Location detected";
+
+            this.style.color =
+                "#078b54";
+
+        }
+    );
+
+
+/* -----------------------------------------
+   MAP ZOOM
+----------------------------------------- */
+
+const map =
+    document.getElementById("map");
+
+let zoom =
+    1;
+
+
+document
+    .getElementById("zoomIn")
+    .addEventListener(
+        "click",
+        function() {
+
+            zoom += .1;
+
+            map.style.transform =
+                `scale(${zoom})`;
+
+        }
+    );
+
+
+document
+    .getElementById("zoomOut")
+    .addEventListener(
+        "click",
+        function() {
+
+            zoom =
+                Math.max(.8, zoom - .1);
+
+            map.style.transform =
+                `scale(${zoom})`;
+
+        }
+    );
+
+
+document
+    .getElementById("resetZoom")
+    .addEventListener(
+        "click",
+        function() {
+
+            zoom = 1;
+
+            map.style.transform =
+                "scale(1)";
+
+        }
+    );
+
+
+/* -----------------------------------------
+   PAGINATION
+----------------------------------------- */
+
+document
+    .querySelectorAll(".pagination button")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            function() {
+
+                document
+                    .querySelectorAll(
+                        ".pagination button"
+                    )
+                    .forEach(btn => {
+
+                        btn.classList.remove(
+                            "current"
+                        );
+
+                    });
+
+
+                if (
+                    this.textContent !== "‹" &&
+                    this.textContent !== "›"
+                ) {
+
+                    this.classList.add(
+                        "current"
+                    );
+
+                }
+
+            }
+        );
+
+    });
+
+
+/* -----------------------------------------
+   INITIAL FILTER
+----------------------------------------- */
+
+filterActivities();
+
+</script>
 
 </body>
 </html>
