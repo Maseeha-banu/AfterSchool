@@ -4,7 +4,7 @@ A desktop web interface for discovering and exploring after-school activities fo
 
 ## Preview
 
-![AfterSchool Project Preview](images/project-preview.jpg)
+![AfterSchool Project Preview](Images/projectpreview.jpg)
 
 ## About the Project
 
